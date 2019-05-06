@@ -1,0 +1,15 @@
+Order details: 
+
+Order ID: 1
+Order Date: 2019-05-05 18:57:10
+Table: 1
+
+Products ordered: 
+
+salam	12.5
+branza	10.0
+paine	5.75
+
+Total payment: 
+
+28.25
