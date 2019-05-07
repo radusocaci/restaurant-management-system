@@ -22,10 +22,6 @@ public class Order implements Serializable {
         this.id = idGenerator.getAndIncrement();
     }
 
-    public Date getDate() {
-        return date;
-    }
-
     public int getTable() {
         return table;
     }

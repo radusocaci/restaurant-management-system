@@ -76,8 +76,8 @@ public class Restaurant extends Observable implements Serializable, IRestaurantP
     }
 
     @Override
-    public void generateBill(int orderId) throws IllegalArgumentException {
-        Order order = orders.keySet().stream().filter(orderLocal -> orderLocal.getId() == orderId).findAny().orElse(null);
+    public void generateBill(int table) throws IllegalArgumentException {
+        Order order = orders.keySet().stream().filter(orderLocal -> orderLocal.getTable() == table).findAny().orElse(null);
 
         if (order != null) {
             StringBuilder stringBuilder = new StringBuilder("Order details: \n\n" + order.toString() + "\n");
@@ -85,12 +85,14 @@ public class Restaurant extends Observable implements Serializable, IRestaurantP
             stringBuilder.append("Products ordered: \n\n");
             orders.get(order).forEach(product -> stringBuilder.append(product.toString()));
 
-            stringBuilder.append("\nTotal payment: \n\n").append(calculatePrice(orderId));
+            stringBuilder.append("\nTotal payment: \n\n").append(calculatePrice(table));
 
             FileWriter fileWriter = FileWriter.getInstance();
             fileWriter.generateBill(order, stringBuilder.toString());
+
+            orders.remove(order);
         } else {
-            throw new IllegalArgumentException("[BILL_GEN] Order with id" + orderId + " was not found!");
+            throw new IllegalArgumentException("[BILL_GEN] Order with id" + table + " was not found!");
         }
     }
 
@@ -112,5 +114,10 @@ public class Restaurant extends Observable implements Serializable, IRestaurantP
 
     public List<Order> getOrders() {
         return new ArrayList<>(orders.keySet());
+    }
+
+    @Override
+    public List<MenuItem> getItemsForOrder(Order order) {
+        return orders.get(order);
     }
 }

@@ -17,18 +17,8 @@ public class BaseProduct extends MenuItem {
     }
 
     @Override
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    @Override
     public int getGrams() {
         return grams;
-    }
-
-    @Override
-    public void setGrams(int grams) {
-        this.grams = grams;
     }
 
     @Override

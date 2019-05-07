@@ -3,6 +3,7 @@ package Presentation_Layer;
 import Business_Layer.MenuItem;
 import Business_Layer.Order;
 import Business_Layer.Restaurant;
+import Data_Layer.RestaurantSerializator;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -12,18 +13,22 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class View extends JFrame {
-    WaiterGraphicalUserInterface waiterPanel;
-    AdministratorGraphicalUserInterface administratorPanel;
-    ChefGraphicalUserInterface chefPanel;
+    private WaiterGraphicalUserInterface waiterPanel;
+    private AdministratorGraphicalUserInterface administratorPanel;
+    private ChefGraphicalUserInterface chefPanel;
+
+    private Restaurant restaurant;
 
     public View(String title) throws HeadlessException {
         super(title);
 
-        Restaurant restaurant = new Restaurant();
+        restaurant = new Restaurant();
 
         waiterPanel = new WaiterGraphicalUserInterface(restaurant, this);
         administratorPanel = new AdministratorGraphicalUserInterface(restaurant, this);
-        chefPanel = new ChefGraphicalUserInterface(restaurant);
+        chefPanel = new ChefGraphicalUserInterface(restaurant, this);
+
+        restaurant.addObserver(chefPanel);
 
         JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -92,8 +97,28 @@ public class View extends JFrame {
         administratorPanel.setMenuTable(View.generateMenuTable(itemList));
     }
 
-    public void updateOrdersTable(JTable table) {
-        waiterPanel.setOrdersTable(table);
+    public void updateOrdersTable(List<Order> orderList) {
+        waiterPanel.setOrdersTable(View.generateOrderTable(orderList));
+    }
+
+    public void saveRestaurant() {
+        RestaurantSerializator.save(restaurant);
+    }
+
+    public void loadRestaurant() {
+        restaurant = RestaurantSerializator.load();
+
+        if (restaurant == null) {
+            printError("Loaded restaurant is empty!");
+            restaurant = new Restaurant();
+        }
+
+        waiterPanel.setRestaurantProcessing(restaurant);
+        administratorPanel.setRestaurantProcessing(restaurant);
+        chefPanel.setRestaurantProcessing(restaurant);
+
+        updateMenuTable(restaurant.getMenu());
+        updateOrdersTable(restaurant.getOrders());
     }
 
     public void printError(String message) {

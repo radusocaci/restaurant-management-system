@@ -1,6 +1,7 @@
 package Business_Layer;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class MenuItem implements Serializable {
@@ -21,11 +22,7 @@ public abstract class MenuItem implements Serializable {
 
     public abstract double getPrice();
 
-    public abstract void setPrice(double price);
-
     public abstract int getGrams();
-
-    public abstract void setGrams(int grams);
 
     public void update(MenuItem menuItem) {
         this.name = menuItem.getName();
@@ -34,10 +31,6 @@ public abstract class MenuItem implements Serializable {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getInStock() {
@@ -59,5 +52,15 @@ public abstract class MenuItem implements Serializable {
     @Override
     public String toString() {
         return name + "\t" + getPrice() + "\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MenuItem menuItem = (MenuItem) o;
+        return id == menuItem.id &&
+                inStock == menuItem.inStock &&
+                Objects.equals(name, menuItem.name);
     }
 }

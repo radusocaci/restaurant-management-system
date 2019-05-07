@@ -18,4 +18,8 @@ public interface IRestaurantProcessing {
     MenuItem getById(int id) throws IllegalArgumentException;
 
     List<MenuItem> getMenu();
+
+    List<Order> getOrders();
+
+    List<MenuItem> getItemsForOrder(Order order);
 }

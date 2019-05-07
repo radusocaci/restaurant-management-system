@@ -130,6 +130,10 @@ public class AdministratorGraphicalUserInterface extends JPanel {
         return Integer.parseInt(stockTF.getText());
     }
 
+    public void setRestaurantProcessing(IRestaurantProcessing restaurantProcessing) {
+        this.restaurantProcessing = restaurantProcessing;
+    }
+
     private class AddListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
