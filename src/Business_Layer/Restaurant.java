@@ -5,8 +5,13 @@ import Data_Layer.FileWriter;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * @author Socaci Radu Andrei
+ * @invariant isWellFormed()
+ */
 public class Restaurant extends Observable implements Serializable, IRestaurantProcessing {
     private static final long serialversionUID = 129348938L;
+
     private Map<Order, List<MenuItem>> orders;
     private List<MenuItem> menu;
 
@@ -16,10 +21,43 @@ public class Restaurant extends Observable implements Serializable, IRestaurantP
     }
 
     @Override
-    public void createMenuItem(MenuItem menuItem) {
-        menu.add(menuItem);
+    public boolean isWellFormed() {
+        if (menu == null || orders == null) {
+            return false;
+        }
+
+        int k = 0;
+
+        for (MenuItem menuItem : menu) {
+            if (!menuItem.equals(menu.get(k++))) {
+                return false;
+            }
+        }
+
+        if (k != menu.size()) {
+            return false;
+        }
+
+        for (Map.Entry<Order, List<MenuItem>> order : orders.entrySet()) {
+            if (order.getKey().getTable() < 0 || order.getValue().isEmpty() || !menu.containsAll(order.getValue())) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
+    @Override
+    public void createMenuItem(MenuItem menuItem) {
+        assert menuItem != null && menu != null && isWellFormed();
+        int size = menu.size();
+
+        menu.add(menuItem);
+
+        assert size == menu.size() - 1;
+    }
+
+    //  ASSERTS
     @Override
     public void deleteMenuItem(int id) throws IllegalArgumentException {
         MenuItem toRemove = menu.stream().filter(menuItem -> menuItem.getId() == id).findAny().orElse(null);

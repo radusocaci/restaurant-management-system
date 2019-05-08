@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * @author Socaci Radu Andrei
+ */
 public class Order implements Serializable {
     private static final AtomicInteger idGenerator = new AtomicInteger(1);
 
@@ -15,6 +18,11 @@ public class Order implements Serializable {
     private Date date;
     private int table;
 
+    /**
+     * Creates a new Order instance
+     *
+     * @param table table number
+     */
     public Order(int table) {
         this.table = table;
 
@@ -22,10 +30,20 @@ public class Order implements Serializable {
         this.id = idGenerator.getAndIncrement();
     }
 
+    /**
+     * returns the table number
+     *
+     * @return table number
+     */
     public int getTable() {
         return table;
     }
 
+    /**
+     * returns the id
+     *
+     * @return id
+     */
     public int getId() {
         return id;
     }

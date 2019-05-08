@@ -12,6 +12,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Socaci Radu Andrei
+ */
 public class AdministratorGraphicalUserInterface extends JPanel {
     private JTable menuTable;
 
@@ -37,6 +40,12 @@ public class AdministratorGraphicalUserInterface extends JPanel {
 
     private View view;
 
+    /**
+     * Creates the administrator panel
+     *
+     * @param restaurantProcessing restaurant reference
+     * @param view                 view reference
+     */
     public AdministratorGraphicalUserInterface(IRestaurantProcessing restaurantProcessing, View view) {
         this.restaurantProcessing = restaurantProcessing;
         this.view = view;
@@ -100,6 +109,11 @@ public class AdministratorGraphicalUserInterface extends JPanel {
         updateMenuItemBtn.addActionListener(new UpdateListener());
     }
 
+    /**
+     * updates the menu table JTable
+     *
+     * @param menuTable updated JTable
+     */
     public void setMenuTable(JTable menuTable) {
         this.menuTable = menuTable;
         JScrollPane scrollPane = new JScrollPane(menuTable);
@@ -110,30 +124,69 @@ public class AdministratorGraphicalUserInterface extends JPanel {
         repaint();
     }
 
+    /**
+     * converts and returns the id text field
+     *
+     * @return id
+     * @throws NumberFormatException conversion failed
+     */
     private int getId() throws NumberFormatException {
         return Integer.parseInt(idTF.getText());
     }
 
+    /**
+     * returns the name text field
+     *
+     * @return name
+     */
     private String getNameTf() {
         return nameTF.getText();
     }
 
+    /**
+     * converts and returns the price text field
+     *
+     * @return price
+     * @throws NumberFormatException conversion failed
+     */
     private double getPrice() throws NumberFormatException {
         return Double.parseDouble(priceTF.getText());
     }
 
+    /**
+     * converts and returns the quantity text field
+     *
+     * @return quantity
+     * @throws NumberFormatException conversion failed
+     */
     private int getQuantity() throws NumberFormatException {
         return Integer.parseInt(quantityTF.getText());
     }
 
+    /**
+     * converts and returns the stock text field
+     *
+     * @return stock
+     * @throws NumberFormatException conversion failed
+     */
     private int getStock() throws NumberFormatException {
         return Integer.parseInt(stockTF.getText());
     }
 
+    /**
+     * set a new restaurant reference after deserialization
+     *
+     * @param restaurantProcessing restaurant reference
+     */
     public void setRestaurantProcessing(IRestaurantProcessing restaurantProcessing) {
         this.restaurantProcessing = restaurantProcessing;
     }
 
+    /**
+     * Implements the functionality of the app when the add button in pressed
+     *
+     * @author Socaci Radu Andrei
+     */
     private class AddListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -169,6 +222,11 @@ public class AdministratorGraphicalUserInterface extends JPanel {
         }
     }
 
+    /**
+     * Implements the functionality of the app when the delete button in pressed
+     *
+     * @author Socaci Radu Andrei
+     */
     private class DeleteListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -190,6 +248,11 @@ public class AdministratorGraphicalUserInterface extends JPanel {
         }
     }
 
+    /**
+     * Implements the functionality of the app when the update button in pressed
+     *
+     * @author Socaci Radu Andrei
+     */
     private class UpdateListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

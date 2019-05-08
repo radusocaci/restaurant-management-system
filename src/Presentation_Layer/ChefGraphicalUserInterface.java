@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * @author Socaci Radu Andrei
+ */
 public class ChefGraphicalUserInterface extends JPanel implements Observer {
     private JTable cookingTable;
 
@@ -25,6 +28,12 @@ public class ChefGraphicalUserInterface extends JPanel implements Observer {
 
     private View view;
 
+    /**
+     * Creates the chef panel
+     *
+     * @param restaurantProcessing restaurant reference
+     * @param view                 view reference
+     */
     public ChefGraphicalUserInterface(IRestaurantProcessing restaurantProcessing, View view) {
         this.restaurantProcessing = restaurantProcessing;
         this.view = view;
@@ -47,6 +56,11 @@ public class ChefGraphicalUserInterface extends JPanel implements Observer {
         finishOrder.addActionListener(new FinishOrderListener());
     }
 
+    /**
+     * updates the cooking table JTable
+     *
+     * @param cookingTable updated JTable
+     */
     private void setCookingTable(JTable cookingTable) {
         this.cookingTable = cookingTable;
         JScrollPane scrollPane = new JScrollPane(cookingTable);
@@ -57,6 +71,11 @@ public class ChefGraphicalUserInterface extends JPanel implements Observer {
         repaint();
     }
 
+    /**
+     * set a new restaurant reference after deserialization
+     *
+     * @param restaurantProcessing restaurant reference
+     */
     public void setRestaurantProcessing(IRestaurantProcessing restaurantProcessing) {
         this.restaurantProcessing = restaurantProcessing;
 
@@ -69,12 +88,23 @@ public class ChefGraphicalUserInterface extends JPanel implements Observer {
         setCookingTable(View.generateMenuTable(cooking));
     }
 
+    /**
+     * implements the observer pattern
+     *
+     * @param o   observable reference
+     * @param arg argument
+     */
     @Override
     public void update(Observable o, Object arg) {
         cooking.add((MenuItem) arg);
         setCookingTable(View.generateMenuTable(cooking));
     }
 
+    /**
+     * Implements the functionality of the app when the finish order button in pressed
+     *
+     * @author Socaci Radu Andrei
+     */
     private class FinishOrderListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

@@ -11,6 +11,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Socaci Radu Andrei
+ */
 public class WaiterGraphicalUserInterface extends JPanel {
     private JTable menuTable;
     private JTable ordersTable;
@@ -30,6 +33,12 @@ public class WaiterGraphicalUserInterface extends JPanel {
 
     private View view;
 
+    /**
+     * Creates the waiter panel
+     *
+     * @param restaurantProcessing restaurant reference
+     * @param view                 view reference
+     */
     public WaiterGraphicalUserInterface(IRestaurantProcessing restaurantProcessing, View view) {
         this.restaurantProcessing = restaurantProcessing;
         this.view = view;
@@ -78,6 +87,11 @@ public class WaiterGraphicalUserInterface extends JPanel {
         loadRestaurantBtn.addActionListener(new LoadRestaurantListener());
     }
 
+    /**
+     * updates the menu table JTable
+     *
+     * @param menuTable updated JTable
+     */
     public void setMenuTable(JTable menuTable) {
         this.menuTable = menuTable;
         JScrollPane scrollPane = new JScrollPane(menuTable);
@@ -88,6 +102,11 @@ public class WaiterGraphicalUserInterface extends JPanel {
         repaint();
     }
 
+    /**
+     * updates the orders table JTable
+     *
+     * @param ordersTable updated JTable
+     */
     public void setOrdersTable(JTable ordersTable) {
         this.ordersTable = ordersTable;
         JScrollPane scrollPane = new JScrollPane(ordersTable);
@@ -98,14 +117,30 @@ public class WaiterGraphicalUserInterface extends JPanel {
         repaint();
     }
 
+    /**
+     * converts and returns the table number text field
+     *
+     * @return table number
+     * @throws NumberFormatException conversion failed
+     */
     public int getTableNumber() throws NumberFormatException {
         return Integer.parseInt(tableNumberTF.getText());
     }
 
+    /**
+     * set a new restaurant reference after deserialization
+     *
+     * @param restaurantProcessing restaurant reference
+     */
     public void setRestaurantProcessing(IRestaurantProcessing restaurantProcessing) {
         this.restaurantProcessing = restaurantProcessing;
     }
 
+    /**
+     * Implements the functionality of the app when the order button in pressed
+     *
+     * @author Socaci Radu Andrei
+     */
     private class OrderListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -128,9 +163,15 @@ public class WaiterGraphicalUserInterface extends JPanel {
             }
 
             view.updateOrdersTable(restaurantProcessing.getOrders());
+            view.updateMenuTable(restaurantProcessing.getMenu());
         }
     }
 
+    /**
+     * Implements the functionality of the app when the bill button in pressed
+     *
+     * @author Socaci Radu Andrei
+     */
     private class BillListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -146,6 +187,11 @@ public class WaiterGraphicalUserInterface extends JPanel {
         }
     }
 
+    /**
+     * Implements the functionality of the app when the save button in pressed
+     *
+     * @author Socaci Radu Andrei
+     */
     private class SaveRestaurantListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -153,6 +199,11 @@ public class WaiterGraphicalUserInterface extends JPanel {
         }
     }
 
+    /**
+     * Implements the functionality of the app when the load button in pressed
+     *
+     * @author Socaci Radu Andrei
+     */
     private class LoadRestaurantListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

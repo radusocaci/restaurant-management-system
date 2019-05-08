@@ -12,6 +12,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
+/**
+ * @author Socaci Radu Andrei
+ */
 public class View extends JFrame {
     private WaiterGraphicalUserInterface waiterPanel;
     private AdministratorGraphicalUserInterface administratorPanel;
@@ -19,6 +22,12 @@ public class View extends JFrame {
 
     private Restaurant restaurant;
 
+    /**
+     * Creates a new View instance
+     *
+     * @param title title of the frame
+     * @throws HeadlessException no input method detected
+     */
     public View(String title) throws HeadlessException {
         super(title);
 
@@ -50,6 +59,12 @@ public class View extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    /**
+     * given a list of menu items, creates a JTable containing the elements in the list
+     *
+     * @param menuItemList list of menu items
+     * @return JTable
+     */
     public static JTable generateMenuTable(List<MenuItem> menuItemList) {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 5);
         JTable table = new JTable(defaultTableModel);
@@ -72,6 +87,12 @@ public class View extends JFrame {
         return table;
     }
 
+    /**
+     * given a list of orders, creates a JTable containing the elements in the list
+     *
+     * @param ordersList list of orders
+     * @return JTable
+     */
     public static JTable generateOrderTable(List<Order> ordersList) {
         DefaultTableModel defaultTableModel = new DefaultTableModel(0, 1);
         JTable table = new JTable(defaultTableModel);
@@ -92,19 +113,35 @@ public class View extends JFrame {
         return table;
     }
 
+    /**
+     * updates both menu tables
+     *
+     * @param itemList menu item list
+     */
     public void updateMenuTable(List<MenuItem> itemList) {
         waiterPanel.setMenuTable(View.generateMenuTable(itemList));
         administratorPanel.setMenuTable(View.generateMenuTable(itemList));
     }
 
+    /**
+     * updates the order table
+     *
+     * @param orderList order list
+     */
     public void updateOrdersTable(List<Order> orderList) {
         waiterPanel.setOrdersTable(View.generateOrderTable(orderList));
     }
 
+    /**
+     * saves restaurant state (serialization)
+     */
     public void saveRestaurant() {
         RestaurantSerializator.save(restaurant);
     }
 
+    /**
+     * loads a restaurant from a file (deserialization)
+     */
     public void loadRestaurant() {
         restaurant = RestaurantSerializator.load();
 
@@ -121,6 +158,11 @@ public class View extends JFrame {
         updateOrdersTable(restaurant.getOrders());
     }
 
+    /**
+     * displays an error on the GUI
+     *
+     * @param message error msg
+     */
     public void printError(String message) {
         JOptionPane.showMessageDialog(this, message, "FATAL ERROR", JOptionPane.ERROR_MESSAGE);
     }

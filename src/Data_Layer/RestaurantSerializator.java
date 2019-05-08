@@ -4,7 +4,15 @@ import Business_Layer.Restaurant;
 
 import java.io.*;
 
+/**
+ * @author Socaci Radu Andrei
+ */
 public class RestaurantSerializator {
+    /**
+     * saves a restaurant instance in a file (serialization)
+     *
+     * @param restaurant restaurant
+     */
     public static void save(Restaurant restaurant) {
         try (FileOutputStream outputStream = new FileOutputStream("restaurant.ser");
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)) {
@@ -14,6 +22,11 @@ public class RestaurantSerializator {
         }
     }
 
+    /**
+     * loads a restaurant from a file (deserialization)
+     *
+     * @return restaurant instance
+     */
     public static Restaurant load() {
         try (FileInputStream inputStream = new FileInputStream("restaurant.ser");
              ObjectInputStream objectInputStream = new ObjectInputStream(inputStream)) {

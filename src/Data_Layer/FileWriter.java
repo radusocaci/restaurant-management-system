@@ -6,7 +6,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * @author Socaci Radu Andrei
+ */
 public class FileWriter {
+    /**
+     * private constructor for singleton
+     */
     private FileWriter() {
         File directory = new File("bills");
 
@@ -20,10 +26,21 @@ public class FileWriter {
         }
     }
 
+    /**
+     * returns a FileWriter instance
+     *
+     * @return FileWriter
+     */
     public static FileWriter getInstance() {
         return SingletonHelper.FILE_WRITER;
     }
 
+    /**
+     * generates a bill for a given order
+     *
+     * @param order    order
+     * @param billData string to print
+     */
     public void generateBill(Order order, String billData) {
         File billFile = new File("bills/billOrder" + order.getId() + ".txt");
 
@@ -34,6 +51,11 @@ public class FileWriter {
         }
     }
 
+    /**
+     * Helper class for singleton
+     *
+     * @author Socaci Radu Andrei
+     */
     private static class SingletonHelper {
         private static final FileWriter FILE_WRITER = new FileWriter();
     }
