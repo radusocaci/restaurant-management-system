@@ -50,6 +50,7 @@ public class Restaurant extends Observable implements Serializable, IRestaurantP
     @Override
     public void createMenuItem(MenuItem menuItem) {
         assert menuItem != null && menu != null && isWellFormed();
+
         int size = menu.size();
 
         menu.add(menuItem);
@@ -57,20 +58,26 @@ public class Restaurant extends Observable implements Serializable, IRestaurantP
         assert size == menu.size() - 1;
     }
 
-    //  ASSERTS
     @Override
     public void deleteMenuItem(int id) throws IllegalArgumentException {
+        assert id > 0 && menu != null && menu.size() > 0 && isWellFormed();
+
         MenuItem toRemove = menu.stream().filter(menuItem -> menuItem.getId() == id).findAny().orElse(null);
+        int size = menu.size();
 
         if (toRemove != null) {
             menu.remove(toRemove);
         } else {
             throw new IllegalArgumentException("[DELETE] Menu item with id " + id + " was not found in the menu!");
         }
+
+        assert size == menu.size() + 1;
     }
 
     @Override
     public void updateMenuItem(MenuItem menuItem) throws IllegalArgumentException {
+        assert menuItem != null && menu != null && menu.size() > 0 && isWellFormed();
+
         MenuItem toUpdate = menu.stream().filter(menuItm -> menuItm.getId() == menuItem.getId()).findAny().orElse(null);
 
         if (toUpdate != null) {
@@ -78,10 +85,14 @@ public class Restaurant extends Observable implements Serializable, IRestaurantP
         } else {
             throw new IllegalArgumentException("[UPDATE] Menu item with id " + menuItem.getId() + "was not found in the menu!");
         }
+
+        assert toUpdate.equals(menuItem);
     }
 
     @Override
     public void createOrder(Order order, List<MenuItem> items) throws IllegalArgumentException {
+        assert order != null && orders != null && items != null && items.size() > 0 && isWellFormed();
+
         items.forEach(item -> {
             if (item.getInStock() == 0) {
                 throw new IllegalArgumentException("Out of stock!");
@@ -89,6 +100,7 @@ public class Restaurant extends Observable implements Serializable, IRestaurantP
 
             item.setInStock(item.getInStock() - 1);
         });
+        int size = orders.size();
 
         if (orders.containsKey(order)) {
             orders.get(order).addAll(items);
@@ -100,10 +112,14 @@ public class Restaurant extends Observable implements Serializable, IRestaurantP
             this.setChanged();
             this.notifyObservers(product);
         });
+
+        assert size == orders.size() - 1;
     }
 
     @Override
     public double calculatePrice(int orderId) throws IllegalArgumentException {
+        assert orders != null && orders.size() > 0 && isWellFormed();
+
         Order order = orders.keySet().stream().filter(orderLocal -> orderLocal.getId() == orderId).findAny().orElse(null);
 
         if (order != null) {
@@ -115,6 +131,8 @@ public class Restaurant extends Observable implements Serializable, IRestaurantP
 
     @Override
     public void generateBill(int table) throws IllegalArgumentException {
+        assert orders != null && orders.size() > 0 && isWellFormed();
+
         Order order = orders.keySet().stream().filter(orderLocal -> orderLocal.getTable() == table).findAny().orElse(null);
 
         if (order != null) {
@@ -136,6 +154,8 @@ public class Restaurant extends Observable implements Serializable, IRestaurantP
 
     @Override
     public MenuItem getById(int id) throws IllegalArgumentException {
+        assert menu != null && menu.size() > 0 && isWellFormed();
+
         MenuItem toFind = menu.stream().filter(item -> item.getId() == id).findAny().orElse(null);
 
         if (toFind == null) {
@@ -147,15 +167,21 @@ public class Restaurant extends Observable implements Serializable, IRestaurantP
 
     @Override
     public List<MenuItem> getMenu() {
+        assert isWellFormed();
+
         return menu;
     }
 
     public List<Order> getOrders() {
+        assert isWellFormed();
+
         return new ArrayList<>(orders.keySet());
     }
 
     @Override
     public List<MenuItem> getItemsForOrder(Order order) {
+        assert orders != null && orders.size() > 0 && isWellFormed();
+
         return orders.get(order);
     }
 }
